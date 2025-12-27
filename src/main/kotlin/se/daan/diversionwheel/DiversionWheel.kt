@@ -13,8 +13,8 @@ import kotlin.math.sin
 const val PT_PER_INCH = 72f
 const val CM_PER_INCH = 2.54f
 const val SCALE = 1/250000f
-const val M_PER_NM = 1852
-const val CM_PER_M = 100
+const val M_PER_NM = 1852f
+const val CM_PER_M = 100f
 
 const val PT_PER_CM = PT_PER_INCH / CM_PER_INCH
 const val PT_PER_NM = 1f * SCALE * M_PER_NM * CM_PER_M * PT_PER_CM
@@ -101,14 +101,14 @@ fun main() {
         }
 
         if(text != null) {
-            val xOffset = -font.getStringWidth(text) / 1000f * 12f / 2f
+            val xOffset = -font.getStringWidth(text) / 1000f * 18f / 2f
             stream.beginText()
-            stream.setFont(font, 12f)
+            stream.setFont(font, 18f)
             stream.setTextMatrix(
                 Matrix(
                     1f, 0f,
                     0f, 1f,
-                    xOffset, r4min - 0.8f * PT_PER_CM
+                    xOffset, r4min - 1.0f * PT_PER_CM
                 )
             )
 
