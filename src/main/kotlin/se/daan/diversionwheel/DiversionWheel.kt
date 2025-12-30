@@ -25,7 +25,9 @@ const val PAGE_HEIGHT = 29.7f * PT_PER_CM
 const val RAD_PER_DEG = PI / 180f
 
 fun main() {
-    val flipped = false
+    val flipped = true
+    val drawWind = false
+
     val speed = 107f
     val windDirection = 130f
     val windSpeed = 20f
@@ -52,6 +54,10 @@ fun main() {
 
     val r2min = speed / 60f * 2f * PT_PER_NM
     stream.circle(r2min)
+    stream.stroke()
+
+    val r1min = speed / 60f * 1f * PT_PER_NM
+    stream.circle(r1min)
     stream.stroke()
 
 //    stream.circle(0.1f * PT_PER_CM)
@@ -100,6 +106,18 @@ fun main() {
             stream.stroke()
         }
 
+//        if(i % 30 == 0) {
+//            val height = if(i % 90 == 0) {
+//                0.4f
+//            } else {
+//                0.2f
+//            }
+//
+//            stream.moveTo(0f, r1min)
+//            stream.lineTo(0f, r1min - height * PT_PER_CM)
+//            stream.stroke()
+//        }
+
         if(text != null) {
             val xOffset = -font.getStringWidth(text) / 1000f * 18f / 2f
             stream.beginText()
@@ -119,38 +137,48 @@ fun main() {
         stream.restoreGraphicsState()
     }
 
-    val angle = windDirection * RAD_PER_DEG
-    stream.saveGraphicsState()
-    stream.transform(Matrix(
-        cos(angle).toFloat(), -sin(angle).toFloat(),
-        sin(angle).toFloat(), cos(angle).toFloat(),
-        0f, 0f
-    ))
-    stream.transform(Matrix(
-        1f, 0f,
-        0f, 1f,
-        0f, windSpeed / 60f * 4f * PT_PER_NM
-    ))
+    if(drawWind) {
+        val angle = windDirection * RAD_PER_DEG
+        stream.saveGraphicsState()
+        stream.transform(
+            Matrix(
+                cos(angle).toFloat(), -sin(angle).toFloat(),
+                sin(angle).toFloat(), cos(angle).toFloat(),
+                0f, 0f
+            )
+        )
+        stream.transform(
+            Matrix(
+                1f, 0f,
+                0f, 1f,
+                0f, windSpeed / 60f * 4f * PT_PER_NM
+            )
+        )
 
-    stream.circle(0.1f * PT_PER_CM)
-    stream.stroke()
-    stream.restoreGraphicsState()
+        stream.circle(0.1f * PT_PER_CM)
+        stream.stroke()
+        stream.restoreGraphicsState()
 
-    stream.saveGraphicsState()
-    stream.transform(Matrix(
-        cos(angle).toFloat(), -sin(angle).toFloat(),
-        sin(angle).toFloat(), cos(angle).toFloat(),
-        0f, 0f
-    ))
-    stream.transform(Matrix(
-        1f, 0f,
-        0f, 1f,
-        0f, windSpeed / 60f * 2f * PT_PER_NM
-    ))
+        stream.saveGraphicsState()
+        stream.transform(
+            Matrix(
+                cos(angle).toFloat(), -sin(angle).toFloat(),
+                sin(angle).toFloat(), cos(angle).toFloat(),
+                0f, 0f
+            )
+        )
+        stream.transform(
+            Matrix(
+                1f, 0f,
+                0f, 1f,
+                0f, windSpeed / 60f * 2f * PT_PER_NM
+            )
+        )
 
-    stream.circle(0.1f * PT_PER_CM)
-    stream.stroke()
-    stream.restoreGraphicsState()
+        stream.circle(0.1f * PT_PER_CM)
+        stream.stroke()
+        stream.restoreGraphicsState()
+    }
 
 
     for (i in -8..8 step 2) {
